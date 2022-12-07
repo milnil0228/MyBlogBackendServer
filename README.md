@@ -9,3 +9,5 @@
 | 게시글 조회 | GET | /api/board{id} | List<Post> |
 | 게시글 수정 | PUT | /api/board{id} | Post |
 | 게시글 삭제 | DELETE | /api/board{id} | Post |
+
+답안 예시: https://www.notion.so/Spring-edd2732a352e4f78a2b237cc75af6826
