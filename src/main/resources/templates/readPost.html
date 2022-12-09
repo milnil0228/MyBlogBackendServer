@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Service</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <script th:replace="fragments/script :: script" />
+    <style th:replace="fragments/style :: style" />
+</head>
+<body>
+<div class="background-header">
+
+</div>
+<div class="background-body">
+
+</div>
+<div class="wrap">
+    <div class="header">
+        <h2 onclick="getMainPosts()"><b>Hong's</b> 항해 게시판</h2>
+        <a th:href="@{/}">
+            게시판으로 돌아가기
+        </a>
+    </div>
+    <div class="area-read">
+        <div class="read-name" name="name" th:id="username" cols="30" rows="10">${username}</div>
+        <div class="read-title" name="title" th:id="title" cols="30" rows="10">${title}</div>
+        <div class="read-date" name="date" th:id="date" cols="30" rows="10">${date}</div>
+        <div class="read-field" name="contents" th:id="contents" cols="30" rows="10">${contents}</div>
+        <div class="check-password" name="password" th:id="password" cols="30" rows="10"></div>
+        <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${id}')">
+        <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt="" onclick="deleteOne('${id}')">
+        <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit('${id}')">
+    </div>
+</div>
+</body>
+</html>

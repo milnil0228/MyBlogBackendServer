@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Service</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+    <script th:replace="fragments/script :: script" />
+    <style th:replace="fragments/style :: style" />
 </head>
 <body>
+<div class="background-header">
 
+</div>
+<div class="background-body">
+
+</div>
+<div class="wrap">
+    <div class="header">
+        <h2><b>Hong's</b> 항해 게시판</h2>
+        <a th:href="@{/posts/new}">
+            게시글 쓰러 이동
+        </a>
+    </div>
+    <a th:href="@{/posts/new}">
+        쓰기
+    </a>
+    <a th:href="@{/post/read}">
+        읽기
+    </a>
+    <div id="cards-box" class="area-read">
+    </div>
+</div>
 </body>
+
 </html>
