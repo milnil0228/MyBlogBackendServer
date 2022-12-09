@@ -1,10 +1,10 @@
-package com.sparta.myblogbackendserver;
+package com.sparta.hanghaememo.myblogbackendserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyBlogBackendServerApplicationTests {
+class HanghaememoApplicationTests {
 
     @Test
     void contextLoads() {
