@@ -31,9 +31,9 @@ public class PostController {
         return postService.getPosts();
     }
 
-    @GetMapping("/api/posts/password")
-    public String getPassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
-        return postService.getPassword(id, requestDto);
+    @GetMapping("/api/posts/password/{id}")
+    public String checkPassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+        return postService.checkPassword(id, requestDto);
     }
 
     @PutMapping("/api/posts/{id}")
