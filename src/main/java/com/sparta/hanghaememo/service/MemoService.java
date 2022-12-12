@@ -1,7 +1,9 @@
 package com.sparta.hanghaememo.service;
 
 
+import com.sparta.hanghaememo.dto.MemoDeleteDto;
 import com.sparta.hanghaememo.dto.MemoRequestDto;
+import com.sparta.hanghaememo.dto.MemoResponseDto;
 import com.sparta.hanghaememo.entity.Memo;
 import com.sparta.hanghaememo.repository.MemoRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,8 @@ public class MemoService {
     private final MemoRepository memoRepository;
 
     @Transactional
-    public Memo createMemo(MemoRequestDto requestDto) {
-        Memo memo = new Memo(requestDto);
+    public Memo createMemo(MemoRequestDto memoRequestDto) {
+        Memo memo = new Memo(memoRequestDto);
         memoRepository.save(memo);
         return memo;
     }
@@ -28,19 +30,31 @@ public class MemoService {
         return memoRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    @Transactional
-    public Long update(Long id, MemoRequestDto requestDto) {
+    @Transactional(readOnly = true)
+    public MemoResponseDto getMemo(long id) {
         Memo memo = memoRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        memo.update(requestDto);
+        return new MemoResponseDto(memo);
+    }
+
+    @Transactional
+    public Long update(Long id, MemoRequestDto memoRequestDto) {
+        Memo memo = memoRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        memo.checkPassword(memoRequestDto.getPassword());
+        memo.update(memoRequestDto);
         return memo.getId();
     }
 
     @Transactional
-    public Long deleteMemo(Long id) {
+    public Long deleteMemo(Long id, MemoDeleteDto memoDeleteDto) {
+        Memo memo = memoRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        memo.checkPassword(memoDeleteDto.getPassword());
         memoRepository.deleteById(id);
         return id;
     }
-
 }
