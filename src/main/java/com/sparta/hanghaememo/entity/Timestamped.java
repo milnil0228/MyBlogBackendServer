@@ -1,4 +1,4 @@
-package com.sparta.MyBlogBackendServer.entity;
+package com.sparta.hanghaememo.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

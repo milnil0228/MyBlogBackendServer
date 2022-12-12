@@ -1,4 +1,4 @@
-package com.sparta.MyBlogBackendServer;
+package com.sparta.hanghaememo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
