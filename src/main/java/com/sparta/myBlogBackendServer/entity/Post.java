@@ -1,6 +1,6 @@
-package com.sparta.hanghaememo.entity;
+package com.sparta.myBlogBackendServer.entity;
 
-import com.sparta.hanghaememo.dto.MemoRequestDto;
+import com.sparta.myBlogBackendServer.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Memo extends Timestamped {
+public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,22 +26,22 @@ public class Memo extends Timestamped {
     @Column(nullable = false)
     private String password;
 
-    public Memo(String username, String contents) {
+    public Post(String username, String contents) {
         this.username = username;
         this.contents = contents;
     }
 
-    public Memo(MemoRequestDto memoRquestDto) {
-        this.username = memoRquestDto.getUsername();
-        this.contents = memoRquestDto.getContents();
-        this.title = memoRquestDto.getTitle();
-        this.password = memoRquestDto.getPassword();
+    public Post(PostRequestDto postRquestDto) {
+        this.username = postRquestDto.getUsername();
+        this.contents = postRquestDto.getContents();
+        this.title = postRquestDto.getTitle();
+        this.password = postRquestDto.getPassword();
     }
 
-    public void update(MemoRequestDto memoRequestDto) {
-        this.username = memoRequestDto.getUsername();
-        this.contents = memoRequestDto.getContents();
-        this.title = memoRequestDto.getTitle();
+    public void update(PostRequestDto postRequestDto) {
+        this.username = postRequestDto.getUsername();
+        this.contents = postRequestDto.getContents();
+        this.title = postRequestDto.getTitle();
     }
 
     public void checkPassword(String password) {
