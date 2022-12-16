@@ -1,6 +1,7 @@
 package com.sparta.myBlogBackendServer.controller;
 
 import com.sparta.myBlogBackendServer.dto.SignupRequestDto;
+import com.sparta.myBlogBackendServer.entity.User;
 import com.sparta.myBlogBackendServer.service.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +18,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public void signup (@RequestBody SignupRequestDto signupRequestDto) {
-        userService.signup(signupRequestDto);
+    public User signup (@RequestBody SignupRequestDto signupRequestDto) {
+        User user = userService.signup(signupRequestDto);
+        return user;
     }
-
 }
