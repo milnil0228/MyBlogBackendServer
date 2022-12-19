@@ -14,8 +14,8 @@ public class Post extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String username;
+//    @Column(nullable = false)
+//    private String username;
 
     @Column(nullable = false)
     private String contents;
@@ -23,30 +23,29 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 
-    public Post(String username, String contents) {
-        this.username = username;
-        this.contents = contents;
-    }
+//    @Column(nullable = false)
+//    private String password;
 
-    public Post(PostRequestDto postRquestDto) {
-        this.username = postRquestDto.getUsername();
+    public Post(PostRequestDto postRquestDto, User user) {
         this.contents = postRquestDto.getContents();
         this.title = postRquestDto.getTitle();
-        this.password = postRquestDto.getPassword();
+        this.user = user;
+//        this.password = postRquestDto.getPassword();
     }
 
     public void update(PostRequestDto postRequestDto) {
-        this.username = postRequestDto.getUsername();
+//        this.username = user.getUsername();
         this.contents = postRequestDto.getContents();
         this.title = postRequestDto.getTitle();
     }
 
-    public void checkPassword(String password) {
-        if(!this.password.equals(password)) throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-    }
+//    public void checkPassword(String password) {
+//        if(!this.password.equals(password)) throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+//    }
 
 
 }

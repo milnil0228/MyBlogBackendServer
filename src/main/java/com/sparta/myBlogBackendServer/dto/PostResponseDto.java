@@ -13,7 +13,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
 
     public PostResponseDto(Post post) {
-        this.username = post.getUsername();
+        this.username = post.getUser().getUsername();
         this.contents = post.getContents();
         this.title = post.getTitle();
         this.createdAt = post.getCreatedAt();
