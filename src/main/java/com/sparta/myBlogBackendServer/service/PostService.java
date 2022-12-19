@@ -67,13 +67,40 @@ public class PostService {
     }
 
     @Transactional
-    public Long update(Long id, PostRequestDto postRequestDto) {
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
-//        post.checkPassword(postRequestDto.getPassword());
-        post.update(postRequestDto);
-        return post.getId();
+    public Long update(Long id, PostRequestDto postRequestDto, HttpServletRequest request) {
+        //Request에서 Token 가져오기
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        //토큰이 있는 경우에만 게시글 추가 가능
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                //토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInformationFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            //토큰에서 가져온 사용자 정보를 사용하여 DB 조회
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
+
+            Post post = postRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+            );
+
+            if (user.getUsername().equals(post.getUser().getUsername())) {
+                //        post.checkPassword(postRequestDto.getPassword());
+                post.update(postRequestDto);
+
+                postRepository.save(post);
+
+                return post.getId();
+            }
+        }
+
+        return null;
     }
 
     @Transactional
