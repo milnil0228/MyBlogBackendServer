@@ -22,13 +22,14 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Transactional
-    public PostResponseDto createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
+    public PostRequestDto createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
         //Request에서 Token 가져오기
         String token = jwtUtil.resolveToken(request);
+        System.out.println(token);
         Claims claims;
 
         //토큰이 있는 경우에만 게시글 추가 가능
@@ -45,9 +46,9 @@ public class PostService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-            Post post = new Post(postRequestDto,user);
+            Post post = new Post(postRequestDto, user);
             postRepository.save(post);
-            return new PostResponseDto(post);
+            return postRequestDto;
         } else {
             return null;
         }
