@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,9 +56,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<Post> getPosts() {
-        return postRepository.findAllByOrderByModifiedAtDesc();
-    }
+    public List<PostResponseDto> getPosts() {
+        return postRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }   //순환참조 문제 발생
 
     @Transactional(readOnly = true)
     public PostResponseDto getPost(long id) {
@@ -105,7 +106,42 @@ public class PostService {
     }
 
     @Transactional
-    public Long deletePost(Long id, PostDeleteDto postDeleteDto) {
+    public Long deletePost(Long id, PostDeleteDto postDeleteDto, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        //토큰이 있는 경우에만 게시글 추가 가능
+        if (token != null) {
+            if (jwtUtil.validateToken(token)) {
+                //토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInformationFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+
+            //토큰에서 가져온 사용자 정보를 사용하여 DB 조회
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
+            System.out.println("토큰 조회 완료");
+
+            Post post = postRepository.findById(id).orElseThrow(
+                    () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+            );
+            System.out.println("아이디 조회 완료");
+
+            if (user.getUsername().equals(post.getUser().getUsername())) {
+                //        post.checkPassword(postRequestDto.getPassword());
+                post.update(postRequestDto);
+
+                postRepository.save(post);
+                System.out.println("업데이트 완료");
+                return post.getId();
+            }
+        }
+
+        return null;
+
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );

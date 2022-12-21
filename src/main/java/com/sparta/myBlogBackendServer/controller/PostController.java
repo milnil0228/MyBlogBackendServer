@@ -25,7 +25,7 @@ public class PostController {
     }
 
     @GetMapping("/api/posts")
-    public List<Post> getPosts() {
+    public List<PostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
@@ -35,13 +35,13 @@ public class PostController {
     }
 
     @PutMapping("/api/posts/{id}")
-    public void updatePost(Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest request) {
+    public void updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest request) {
         postService.update(id, postRequestDto, request);
     }
 
     @DeleteMapping("/api/posts/{id}")
-    public Long deletePost(@PathVariable Long id, @RequestBody PostDeleteDto postDeleteDto) {
-        return postService.deletePost(id, postDeleteDto);
+    public Long deletePost(@PathVariable Long id, @RequestBody PostDeleteDto postDeleteDto, HttpServletRequest request) {
+        return postService.deletePost(id, postDeleteDto, request);
     }
 
 }
