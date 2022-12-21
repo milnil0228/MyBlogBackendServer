@@ -40,8 +40,8 @@ public class PostController {
     }
 
     @DeleteMapping("/api/posts/{id}")
-    public Long deletePost(@PathVariable Long id, @RequestBody PostDeleteDto postDeleteDto, HttpServletRequest request) {
-        return postService.deletePost(id, postDeleteDto, request);
+    public Long deletePost(@PathVariable Long id, HttpServletRequest request) {
+        return postService.deletePost(id, request);
     }
 
 }

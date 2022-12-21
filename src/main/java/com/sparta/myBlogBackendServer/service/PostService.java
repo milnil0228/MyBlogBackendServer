@@ -88,9 +88,11 @@ public class PostService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
+
             Post post = postRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
+
 
             if (user.getUsername().equals(post.getUser().getUsername())) {
                 //        post.checkPassword(postRequestDto.getPassword());
@@ -106,7 +108,8 @@ public class PostService {
     }
 
     @Transactional
-    public Long deletePost(Long id, PostDeleteDto postDeleteDto, HttpServletRequest request) {
+    public Long deletePost(Long id, HttpServletRequest request) {
+        //Request에서 Token 가져오기
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -123,30 +126,17 @@ public class PostService {
             User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
-            System.out.println("토큰 조회 완료");
+
 
             Post post = postRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
-            System.out.println("아이디 조회 완료");
 
-            if (user.getUsername().equals(post.getUser().getUsername())) {
-                //        post.checkPassword(postRequestDto.getPassword());
-                post.update(postRequestDto);
+                postRepository.delete(post);
 
-                postRepository.save(post);
-                System.out.println("업데이트 완료");
                 return post.getId();
             }
-        }
 
         return null;
-
-        Post post = postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
-//        post.checkPassword(postDeleteDto.getPassword());
-        postRepository.deleteById(id);
-        return id;
     }
 }
