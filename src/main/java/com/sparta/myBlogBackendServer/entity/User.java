@@ -22,13 +22,9 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    @Length(min = 4, max = 10)
-//    @Pattern(regexp = "^[a-z0-9]$")
     private String username;
 
     @Column(nullable = false)
-    @Length(min = 8, max = 15)
-//    @Pattern(regexp = "^[a-zA-Z0-9]$")
     private String password;
 
     @OneToMany(mappedBy = "user")
