@@ -12,7 +12,7 @@
 답안 예시: https://www.notion.so/Spring-edd2732a352e4f78a2b237cc75af6826
 
 ---
-MyBlogBackendServer 숙련 개인 과제 LV1
+# MyBlogBackendServer 숙련 개인 과제 LV1
 | 기능 | method | URL | Request Header | Request | Response | Response Header |
 | --- | --- | --- | --- | --- | --- | --- |
 | 회원가입 | POST | /api/user/signup | - | { "username": "username", "password": "password" } | { "msg": "회원가입 완료", "statusCode": 200 } | - |
@@ -24,7 +24,7 @@ MyBlogBackendServer 숙련 개인 과제 LV1
 | 게시글 삭제 | DELETE | /api/board{id} | Authorization: Token | - | { "msg": "게시글 삭제 완료", "statusCode": 200 } | - |
 
 ---
-MyBlogBackendServer 숙련 개인 과제 LV2
+# MyBlogBackendServer 숙련 개인 과제 LV2
 | 기능 | method | URL | Request Header | Request | Response | Response Header |
 | --- | --- | --- | --- | --- | --- | --- |
 | 회원가입 | POST | /api/user/signup | - | { "username": "username", "password": "password" } | { "msg": "회원가입 완료", "statusCode": 200 } | - |
