@@ -28,7 +28,7 @@ public class PostService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public PostRequestDto createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
+    public void createPost(PostRequestDto postRequestDto, HttpServletRequest request) {
         //Request에서 Token 가져오기
         String token = jwtUtil.resolveToken(request);
         System.out.println(token);
@@ -50,9 +50,6 @@ public class PostService {
 
             Post post = new Post(postRequestDto, user);
             postRepository.save(post);
-            return postRequestDto;
-        } else {
-            return null;
         }
     }
 
@@ -70,7 +67,7 @@ public class PostService {
     }
 
     @Transactional
-    public Long update(Long id, PostRequestDto postRequestDto, HttpServletRequest request) {
+    public void update(Long id, PostRequestDto postRequestDto, HttpServletRequest request) {
         //Request에서 Token 가져오기
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -98,18 +95,14 @@ public class PostService {
                 post.update(postRequestDto);
 
                 postRepository.save(post);
-
-                return post.getId();
             } else {
                 throw new IllegalArgumentException("접근할 수 있는 권한이 없습니다.");
             }
         }
-
-        return null;
     }
 
     @Transactional
-    public Long deletePost(Long id, HttpServletRequest request) {
+    public void deletePost(Long id, HttpServletRequest request) {
         //Request에서 Token 가져오기
         String token = jwtUtil.resolveToken(request);
         Claims claims;
@@ -135,13 +128,9 @@ public class PostService {
             UserRoleEnum role = user.getRole();
             if (user.getUsername().equals(post.getUser().getUsername()) || role.equals(UserRoleEnum.ADMIN)) {
                 postRepository.delete(post);
-
-                return post.getId();
             } else {
                 throw new IllegalArgumentException("접근할 수 있는 권한이 없습니다.");
             }
         }
-
-        return null;
     }
 }

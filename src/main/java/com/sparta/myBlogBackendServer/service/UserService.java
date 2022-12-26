@@ -24,7 +24,7 @@ public class UserService {
 
 //    회원가입
     @Transactional
-    public User signup(SignupRequestDto signupRequestDto) {
+    public void signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = signupRequestDto.getPassword();
         String adminToken = signupRequestDto.getAdminToken();
@@ -46,7 +46,6 @@ public class UserService {
 
         User user = new User(username, password, role);
         userRepository.save(user);
-        return user;
     }
 
     @Transactional(readOnly = true)
