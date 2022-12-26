@@ -5,8 +5,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.security.auth.login.CredentialException;
-
 @RestControllerAdvice
 public class ExceptionHandler {
 

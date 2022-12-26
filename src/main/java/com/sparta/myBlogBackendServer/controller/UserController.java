@@ -6,6 +6,7 @@ import com.sparta.myBlogBackendServer.entity.User;
 import com.sparta.myBlogBackendServer.service.UserService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +20,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public String signup (@RequestBody @Valid SignupRequestDto signupRequestDto) {
+    public ResponseEntity signup (@RequestBody @Valid SignupRequestDto signupRequestDto) {
         userService.signup(signupRequestDto);
-        return "회원가입을 축하합니다!";
+        return ResponseEntity.ok("회원가입 완료");
     }
 
     @PostMapping("/login")
-    public String login (@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public ResponseEntity login (@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         userService.login(loginRequestDto, response);
-        return "로그인을 완료하였습니다!";
+        return ResponseEntity.ok("로그인 완료");
     }
 }
