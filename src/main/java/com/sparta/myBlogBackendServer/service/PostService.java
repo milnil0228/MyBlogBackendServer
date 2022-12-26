@@ -6,6 +6,7 @@ import com.sparta.myBlogBackendServer.dto.PostRequestDto;
 import com.sparta.myBlogBackendServer.dto.PostResponseDto;
 import com.sparta.myBlogBackendServer.entity.Post;
 import com.sparta.myBlogBackendServer.entity.User;
+import com.sparta.myBlogBackendServer.entity.UserRoleEnum;
 import com.sparta.myBlogBackendServer.jwt.JwtUtil;
 import com.sparta.myBlogBackendServer.repository.PostRepository;
 import com.sparta.myBlogBackendServer.repository.UserRepository;
@@ -88,19 +89,19 @@ public class PostService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-
             Post post = postRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
-
-            if (user.getUsername().equals(post.getUser().getUsername())) {
-                //        post.checkPassword(postRequestDto.getPassword());
+            UserRoleEnum role = post.getUser().getRole();
+            if (user.getUsername().equals(post.getUser().getUsername()) || role.equals(UserRoleEnum.ADMIN)) {
                 post.update(postRequestDto);
 
                 postRepository.save(post);
 
                 return post.getId();
+            } else {
+                throw new IllegalArgumentException("접근할 수 있는 권한이 없습니다.");
             }
         }
 
@@ -127,15 +128,19 @@ public class PostService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-
             Post post = postRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
+            UserRoleEnum role = user.getRole();
+            if (user.getUsername().equals(post.getUser().getUsername()) || role.equals(UserRoleEnum.ADMIN)) {
                 postRepository.delete(post);
 
                 return post.getId();
+            } else {
+                throw new IllegalArgumentException("접근할 수 있는 권한이 없습니다.");
             }
+        }
 
         return null;
     }
