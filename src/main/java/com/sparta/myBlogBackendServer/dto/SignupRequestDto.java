@@ -16,6 +16,6 @@ public class SignupRequestDto {
     private String username;
 
     @Length(min = 8, max = 15)
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @Pattern(regexp = "^[a-zA-Z0-9`~!@#$%^&*()-_=+|\\[\\]{};:'\",.<>/?]*$")
     private String password;
 }
