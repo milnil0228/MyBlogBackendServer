@@ -3,6 +3,7 @@ package com.sparta.myBlogBackendServer.service;
 import com.sparta.myBlogBackendServer.dto.LoginRequestDto;
 import com.sparta.myBlogBackendServer.dto.SignupRequestDto;
 import com.sparta.myBlogBackendServer.entity.User;
+import com.sparta.myBlogBackendServer.entity.UserRoleEnum;
 import com.sparta.myBlogBackendServer.jwt.JwtUtil;
 import com.sparta.myBlogBackendServer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +20,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private static final String ADMIN_TOKEN = "hong";
 
 //    회원가입
     @Transactional
     public User signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = signupRequestDto.getPassword();
-
-//        // 아이디 정규식 확인
-//        if (!Pattern.matches("^[a-z0-9]{4,10}$", username)) {
-//            throw new IllegalArgumentException("아이디는 4자 이상, 10자 이하 알파벳 소문자, 숫자로만 이루어져야 합니다.");
-//        }
-//
-//        // 비밀번호 정규식 확인
-//        if (!Pattern.matches("^\\w{8,15}$", password)) {
-//            throw new IllegalArgumentException("비밀번호는 8자 이상, 15자 이하 알파벳 대/소문자, 숫자로만 이루어져야 합니다.");
-//        }
+        String adminToken = signupRequestDto.getAdminToken();
 
         // 회원 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
@@ -42,7 +35,16 @@ public class UserService {
             throw new IllegalArgumentException("중복된 아이디가 존재합니다.");
         }
 
-        User user = new User(username, password);
+        // 사용자 ROLE 확인
+        UserRoleEnum role = UserRoleEnum.USER;
+        if (signupRequestDto.isAdmin()) {
+            if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+                throw new IllegalArgumentException("관리자 암호가 일치하지 않습니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
+
+        User user = new User(username, password, role);
         userRepository.save(user);
         return user;
     }
