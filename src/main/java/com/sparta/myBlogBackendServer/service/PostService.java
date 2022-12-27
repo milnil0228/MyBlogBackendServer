@@ -91,7 +91,8 @@ public class PostService {
                     () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
             );
 
-            UserRoleEnum role = post.getUser().getRole();
+            UserRoleEnum role = user.getRole();
+            System.out.println(role);
             if (user.getUsername().equals(post.getUser().getUsername()) || role.equals(UserRoleEnum.ADMIN)) {
                 post.update(postRequestDto);
 
@@ -127,6 +128,7 @@ public class PostService {
             );
 
             UserRoleEnum role = user.getRole();
+            System.out.println(role);
             if (user.getUsername().equals(post.getUser().getUsername()) || role.equals(UserRoleEnum.ADMIN)) {
                 postRepository.delete(post);
             } else {

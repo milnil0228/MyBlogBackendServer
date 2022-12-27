@@ -24,11 +24,12 @@ public class CommentController {
 
         /*토큰 확인*/
         if (token != null) {
-            claims = jwtUtil.getUserInformationFromToken(token);
-
-            commentService.createComment(id, commentRequestDto, claims);
-        } else {
-            throw new IllegalArgumentException("Token Error");
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInformationFromToken(token);
+                commentService.createComment(id, commentRequestDto, claims);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
         }
         return ResponseEntity.ok("댓글 작성 완료");
     }
@@ -40,11 +41,12 @@ public class CommentController {
 
         /*토큰 확인*/
         if (token != null) {
-            claims = jwtUtil.getUserInformationFromToken(token);
-
-            commentService.updateComment(commentId, commentRequestDto);
-        } else {
-            throw new IllegalArgumentException("Token Error");
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInformationFromToken(token);
+                commentService.updateComment(commentId, commentRequestDto, claims);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
         }
         return ResponseEntity.ok("댓글 작성 완료");
     }
@@ -55,11 +57,12 @@ public class CommentController {
         Claims claims;
 
         if (token != null) {
-            claims = jwtUtil.getUserInformationFromToken(token);
-
-            commentService.deleteComment(commentId);
-        } else {
-            throw new IllegalArgumentException("Token error");
+            if (jwtUtil.validateToken(token)) {
+                claims = jwtUtil.getUserInformationFromToken(token);
+                commentService.deleteComment(commentId, claims);
+            } else {
+                throw new IllegalArgumentException("Token error");
+            }
         }
         return ResponseEntity.ok("댓글 삭제 완료");
     }
