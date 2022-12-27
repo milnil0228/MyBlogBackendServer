@@ -35,6 +35,6 @@
 | 전체 게시글 조회 | GET | /api/posts | - | - | List<{ "id": 1, "title": "제목", "content": "내용", "username": "username", "createdAt": "2022-12-01", "modifiedAt": "2022-12-02", List<{"id": 1, "comment": "comment", , "createdAt": "2022-12-01", "modifiedAt": "2022-12-02"}> }> | - |
 | 게시글 조회 | GET | /api/post{id} | - | - | { "id": 1, "title": "제목", "content": "내용", "username": "username", "createdAt": "2022-12-01", "modifiedAt": "2022-12-02", List<{"id": 1, "comment": "comment", , "createdAt": "2022-12-01", "modifiedAt": "2022-12-02"> } | - |
 | 게시글 수정 | PUT | /api/post{id} | Authorization: Token | { "title": "title ", "content": "content 수정" } | { "msg": "게시글 수정 완료", "statusCode": 200 } | - |
-| 댓글 작성 | POST | /api/comment/{id} | Authorization: Token | "comment": "comment" | { "msg": "댓글 작성 완료", "statusCode": 200 } | - |
+| 댓글 작성 | POST | /api/post{id}/comment | Authorization: Token | "comment": "comment" | { "msg": "댓글 작성 완료", "statusCode": 200 } | - |
 | 댓글 수정 | PUT | /api/comment/{id} | Authorization: Token | "comment": "comment" | { "msg": "댓글 수정 완료", "statusCode": 200 } | - |
 | 댓글 삭제 | DELETE | /api/comment/{id} | Authorization: Token | - | { "msg": "댓글 삭제 완료", "statusCode": 200 } | - |
