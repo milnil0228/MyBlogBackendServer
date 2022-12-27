@@ -1,6 +1,7 @@
 package com.sparta.myBlogBackendServer.controller;
 
 
+import com.sparta.myBlogBackendServer.dto.CommentRequestDto;
 import com.sparta.myBlogBackendServer.dto.PostRequestDto;
 import com.sparta.myBlogBackendServer.dto.PostResponseDto;
 import com.sparta.myBlogBackendServer.service.PostService;
@@ -44,5 +45,4 @@ public class PostController {
         postService.deletePost(id, request);
         return ResponseEntity.ok("게시글 삭제 완료");
     }
-
 }

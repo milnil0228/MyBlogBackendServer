@@ -3,8 +3,11 @@ package com.sparta.myBlogBackendServer.entity;
 import com.sparta.myBlogBackendServer.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +27,9 @@ public class Post extends Timestamped {
     @JoinColumn(name = "users_id")
     private User user;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) //post가 삭제될 경우 함께 삭제
+    @OrderBy("id asc")  //id 순서대로 정렬
+    private List<Comment> comments = new ArrayList<>();
 
     public Post(PostRequestDto postRequestDto, User user) {
         this.contents = postRequestDto.getContents();

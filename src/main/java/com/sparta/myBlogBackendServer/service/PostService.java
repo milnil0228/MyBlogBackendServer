@@ -1,6 +1,7 @@
 package com.sparta.myBlogBackendServer.service;
 
 
+import com.sparta.myBlogBackendServer.dto.CommentRequestDto;
 import com.sparta.myBlogBackendServer.dto.PostDeleteDto;
 import com.sparta.myBlogBackendServer.dto.PostRequestDto;
 import com.sparta.myBlogBackendServer.dto.PostResponseDto;
@@ -55,8 +56,8 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostResponseDto> getPosts() {
-        return postRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).collect(Collectors.toList());
-    }   //순환참조 문제 발생
+        return postRepository.findAllByOrderByModifiedAtDesc().stream().map(PostResponseDto::new).collect(Collectors.toList());   //순환참조 문제
+    }
 
     @Transactional(readOnly = true)
     public PostResponseDto getPost(long id) {

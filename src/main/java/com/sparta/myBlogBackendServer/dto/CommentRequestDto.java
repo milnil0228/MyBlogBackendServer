@@ -5,9 +5,6 @@ import com.sparta.myBlogBackendServer.entity.User;
 import lombok.Getter;
 
 @Getter
-public class PostRequestDto {
-    private String contents;
-    private String title;
-    private User user;
-    private Post post;
+public class CommentRequestDto {
+    private String comment;
 }
