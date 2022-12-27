@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,23 +24,31 @@ public class CommentService {
     private final PostRepository postRepository;
 
 
+    @Transactional
     public void createComment(Long id, CommentRequestDto commentRequestDto, Claims claims) {
         User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                () -> new IllegalArgumentException("유저가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("유저 정보가 존재하지 않습니다.")
         );
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
         );
-
         Comment comment = new Comment(commentRequestDto, post, user);
         commentRepository.save(comment);
     }
 
+    @Transactional
     public void updateComment(Long commentId, CommentRequestDto commentRequestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
         comment.update(commentRequestDto);
         commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
+        );
+        commentRepository.delete(comment);
     }
 }

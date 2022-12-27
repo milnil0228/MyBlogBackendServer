@@ -48,4 +48,19 @@ public class CommentController {
         }
         return ResponseEntity.ok("댓글 작성 완료");
     }
+
+    @DeleteMapping("/api/comment/{commentId}")
+    public ResponseEntity deleteComment(@PathVariable Long commentId, HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        if (token != null) {
+            claims = jwtUtil.getUserInformationFromToken(token);
+
+            commentService.deleteComment(commentId);
+        } else {
+            throw new IllegalArgumentException("Token error");
+        }
+        return ResponseEntity.ok("댓글 삭제 완료");
+    }
 }
