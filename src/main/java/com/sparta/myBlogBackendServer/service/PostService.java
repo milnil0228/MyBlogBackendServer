@@ -105,7 +105,7 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long id, HttpServletRequest request) {
-        //Request에서 토ㅊ 가져오기
+        //Request에서 토큰 가져오기
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
